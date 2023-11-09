@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "game.hpp"
+
 using namespace std;
 
 //Using the files provided in OOP HW to recreate main file
