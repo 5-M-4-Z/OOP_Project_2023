@@ -1,10 +1,4 @@
-#include <SDL.h>
-#include <SDL_image.h>
-#include <stdio.h>
 #include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <time.h>
 
 #include "game.hpp"
 
@@ -15,11 +9,11 @@ int main(int argc, char * argcv[]){
     Game game;  //We will create a class game that will be like a backbone to our game that will import images, create window,etc
     srand(time(NULL));
     if (!game.init()){
-        printf("Failed to initialize!\n")
+        printf("Failed to initialize!\n");
         return 0;
     }
 
-    if (!game.loadMedia()){
+    if (!game.load_media()){
         printf( "Failed to load media!\n" );
         return 0;
     }

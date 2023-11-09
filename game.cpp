@@ -3,13 +3,13 @@
 
 void Game::run(){
     bool quit_game = false;
-    SDL_Event = event;
+    SDL_Event event;
 
     //Infinite loop untill the user quits the game
-    while(!quit){
+    while(!quit_game){
         
         while(SDL_PollEvent(&event) != 0){
-            if (event.type == SDL_Quit()){
+            if (event.type == SDL_QUIT){
                 quit_game = true;
             }
 
@@ -25,21 +25,21 @@ void Game::close(){
     SDL_DestroyTexture(assets);
     assets = NULL;
 
-    SDL_DestroyRenderer(renderer)
+    SDL_DestroyRenderer(renderer);
     renderer = NULL;
 
     SDL_DestroyWindow(window);
     window = NULL;
 
     IMG_Quit();
-    Mix_Quit();
+    // Mix_Quit();
     SDL_Quit();
 }
 
 bool Game::load_media(){
     bool success = true;
 
-    assets = loadTexture("assets/background.png")
+    assets = loadTexture("assets/background.png");
     if (assets == NULL){
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success = false;
@@ -81,7 +81,7 @@ bool Game::init(){
             else{
                 
                 //renderer color
-                SDL_SetRendererDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
                 //png loading
                 int img_flag = IMG_INIT_PNG;
@@ -95,11 +95,11 @@ bool Game::init(){
     return success;
 }
 
-SDL_Texture* Game::loadTexture( string path){
+SDL_Texture* Game::loadTexture( std::string path){
     SDL_Texture* new_texture = NULL;
 
     SDL_Surface* loaded_surface = IMG_Load(path.c_str());
-    if (loadedSurface == NULL){
+    if (loaded_surface == NULL){
         printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
     }
     else{
@@ -109,7 +109,7 @@ SDL_Texture* Game::loadTexture( string path){
             printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
         }
 
-        SDL_FreeSurface( loadedSurface );
+        SDL_FreeSurface( loaded_surface );
     }
 
     return new_texture;
