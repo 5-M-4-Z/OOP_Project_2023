@@ -32,6 +32,7 @@ class Game{
         void close(); //to close the game
         bool load_media();  //this loads the desired media files
         bool init();
+        SDL_Texture* loadTexture( std::string path );
         
 
 
