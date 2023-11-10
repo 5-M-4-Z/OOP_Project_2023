@@ -82,8 +82,6 @@ bool Game::load_media(){
     return success;
 }
 
-
-
 SDL_Texture* Game::loadTexture( std::string path){
     SDL_Texture* new_texture = NULL;
 
@@ -117,9 +115,10 @@ void Game::run(){
             }
 
             if (event.type == SDL_KEYDOWN){
-                //Call a function that will affect the game
+                //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
                 game_start(renderer, assets, event.key.keysym.sym);
             }
+                // This is just to see the exact co-ordinate that will help in future for placing planes at exact point
             if (event.type == SDL_MOUSEBUTTONDOWN){
                 int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
@@ -130,6 +129,8 @@ void Game::run(){
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, Texture, NULL, NULL);
 
+
+        // Using if statements since different states would require different delays
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
@@ -147,8 +148,9 @@ void Game::run(){
 void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     
     SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
-    start_plane.mover_rect.y-=5;
-    if (start_plane.mover_rect.y < 485){
+    start_plane.mover_rect.y-=5;        // The plane moves vertically a liitle bit
+
+    if (start_plane.mover_rect.y < 485){        // This statment only increases the x value of the plane giving 3d look
         start_plane.mover_rect.x+=1.5;
     }
 }
@@ -159,8 +161,6 @@ void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode k
     if(key == SDLK_RETURN){
         SDL_DestroyTexture(Texture);
         Texture = loadTexture("assets/start_point.png");
-        state = 1;
+        state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
     }
-    
-
 }
