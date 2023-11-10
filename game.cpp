@@ -48,35 +48,6 @@ bool Game::init(){
     return success;
 }
 
-void Game::run(){
-    bool quit_game = false;
-    SDL_Event event;
-
-    //Infinite loop untill the user quits the game
-    while(!quit_game){
-        
-        while(SDL_PollEvent(&event) != 0){
-            if (event.type == SDL_QUIT){
-                quit_game = true;
-            }
-
-            if (event.type == SDL_KEYDOWN){
-                //Call a function that will affect the game
-                // gamestart(renderer, assets, event.key.keysym.sym);
-            }
-        }
-
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, Texture, NULL, NULL);
-
-
-
-        SDL_RenderPresent(renderer);
-        SDL_Delay(200);
-    }
-    Game::close();
-}
-
 void Game::close(){
     SDL_DestroyTexture(assets);
     assets = NULL;
@@ -99,8 +70,9 @@ bool Game::load_media(){
     bool success = true;
 
     Texture = loadTexture("assets/test.png");
-    assets = loadTexture("assets/test.png");
-    if (Texture == NULL || assets == NULL){
+    assets = loadTexture("assets/plane_lists.png");
+
+    if (Texture == NULL|| assets == NULL){
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success = false;
     }
@@ -128,4 +100,48 @@ SDL_Texture* Game::loadTexture( std::string path){
     }
 
     return new_texture;
+}
+
+void Game::run(){
+    bool quit_game = false;
+    SDL_Event event;
+
+    //Infinite loop untill the user quits the game
+    while(!quit_game){
+        
+        while(SDL_PollEvent(&event) != 0){
+            if (event.type == SDL_QUIT){
+                quit_game = true;
+            }
+
+            if (event.type == SDL_KEYDOWN){
+                //Call a function that will affect the game
+                game_start(renderer, assets, event.key.keysym.sym);
+            }
+        }   
+
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, Texture, NULL, NULL);
+
+
+
+        SDL_RenderPresent(renderer);
+        SDL_Delay(200);
+    }
+    Game::close();
+}
+
+void Game::game_start_motion(SDL_Texture* asset){
+    
+}
+
+void Game::game_start(SDL_Renderer* render, SDL_Texture* asset, SDL_Keycode key){
+    
+    //When enter key is pressed we destroy the background and make new background
+    if(key == SDLK_RETURN){
+        SDL_DestroyTexture(Texture);
+        Texture = loadTexture("assets/start_point.png");
+    }
+    game_start_motion(asset);
+
 }

@@ -9,8 +9,14 @@
 class Game{
     private:
         //Creating variables that will store size of our whole game
-        const int screen_width = 1000;
-        const int screen_height = 600;
+        const int screen_width = 700;
+        const int screen_height = 800;
+
+        //variable that will store game state
+        /*
+        0 = Start
+        */
+        unsigned state = 0;
 
         //Creating window that we will be modifying for our game
         SDL_Window* window = NULL;
@@ -20,7 +26,7 @@ class Game{
 
         //Texture to display
         SDL_Texture* Texture = NULL;
-
+        
         //texture for assets
         SDL_Texture* assets = NULL;
 
@@ -33,7 +39,7 @@ class Game{
         bool load_media();  //this loads the desired media files
         bool init();
         SDL_Texture* loadTexture( std::string path );
-        
-
+        void game_start(SDL_Renderer* render, SDL_Texture* asset, SDL_Keycode key);
+        void game_start_motion(SDL_Texture* asset);
 
 };
