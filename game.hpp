@@ -9,8 +9,8 @@
 class Game{
     private:
         //Creating variables that will store size of our whole game
-        const int screen_width = 500;
-        const int screen_height = 900;
+        const int screen_width = 1000;
+        const int screen_height = 600;
 
         //Creating window that we will be modifying for our game
         SDL_Window* window = NULL;
