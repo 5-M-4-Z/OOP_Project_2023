@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+
+struct Plane{
+    SDL_Rect src_rect, mover_rect;
+};
+
 class Game{
     private:
         //Creating variables that will store size of our whole game
@@ -17,6 +22,9 @@ class Game{
         0 = Start
         */
         unsigned state = 0;
+
+        //Start game window plane that willl move
+        Plane start_plane = {{111,44,149,182}, {187, 703, 75, 75}};
 
         //Creating window that we will be modifying for our game
         SDL_Window* window = NULL;
@@ -39,7 +47,7 @@ class Game{
         bool load_media();  //this loads the desired media files
         bool init();
         SDL_Texture* loadTexture( std::string path );
-        void game_start(SDL_Renderer* render, SDL_Texture* asset, SDL_Keycode key);
-        void game_start_motion(SDL_Texture* asset);
+        void game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key);
+        void game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets);
 
 };

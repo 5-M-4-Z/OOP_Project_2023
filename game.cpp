@@ -1,6 +1,8 @@
 #include "game.hpp"
 
 
+
+
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
     bool success = true;
@@ -118,30 +120,47 @@ void Game::run(){
                 //Call a function that will affect the game
                 game_start(renderer, assets, event.key.keysym.sym);
             }
+            if (event.type == SDL_MOUSEBUTTONDOWN){
+                int xMouse, yMouse;
+				SDL_GetMouseState(&xMouse,&yMouse);
+                std::cout << xMouse << " : " << yMouse << '\n';
+            }
         }   
 
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, Texture, NULL, NULL);
 
-
-
-        SDL_RenderPresent(renderer);
-        SDL_Delay(200);
+        if(state == 1) {
+            game_start_motion(renderer, assets);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(20);
+        }
+        else{
+            SDL_RenderPresent(renderer);
+            SDL_Delay(200);
+        }
+        
     }
     Game::close();
 }
 
-void Game::game_start_motion(SDL_Texture* asset){
+void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     
+    SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
+    start_plane.mover_rect.y-=5;
+    if (start_plane.mover_rect.y < 485){
+        start_plane.mover_rect.x+=1.5;
+    }
 }
 
-void Game::game_start(SDL_Renderer* render, SDL_Texture* asset, SDL_Keycode key){
+void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
     
     //When enter key is pressed we destroy the background and make new background
     if(key == SDLK_RETURN){
         SDL_DestroyTexture(Texture);
         Texture = loadTexture("assets/start_point.png");
+        state = 1;
     }
-    game_start_motion(asset);
+    
 
 }
