@@ -71,7 +71,7 @@ void Game::close(){
 bool Game::load_media(){
     bool success = true;
 
-    Texture = loadTexture("assets/test.png");
+    Texture = loadTexture("assets/StartScreen.png");
     assets = loadTexture("assets/plane_lists.png");
 
     if (Texture == NULL|| assets == NULL){

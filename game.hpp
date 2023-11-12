@@ -14,8 +14,8 @@ struct Plane{
 class Game{
     private:
         //Creating variables that will store size of our whole game
-        const int screen_width = 700;
-        const int screen_height = 800;
+        const int screen_width = 500;
+        const int screen_height = 650;
 
         //variable that will store game state
         /*
