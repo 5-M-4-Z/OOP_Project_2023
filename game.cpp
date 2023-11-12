@@ -124,6 +124,22 @@ void Game::run(){
 				SDL_GetMouseState(&xMouse,&yMouse);
                 std::cout << xMouse << " : " << yMouse << '\n';
             }
+            if (state == 0 && event.type == SDL_MOUSEBUTTONDOWN) {
+                int xMouse, yMouse;
+                SDL_GetMouseState(&xMouse, &yMouse);
+
+                if (xMouse >= 187 && xMouse <= 312 && yMouse >= 396 && yMouse <= 438) {
+                    // Change the background when the click is within the specified coordinates
+                    SDL_DestroyTexture(Texture);
+                    Texture = loadTexture("assets/start_point.png");
+                    state = 1; // Change the state after the background is changed
+                }
+                if (xMouse >= 187 && xMouse <= 312 && yMouse >= 548 && yMouse <= 590) {
+                    // Close the game when the click is within the specified coordinates
+                    quit_game = true;
+                }
+            }
+
         }   
 
         SDL_RenderClear(renderer);
@@ -158,9 +174,9 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
     
     //When enter key is pressed we destroy the background and make new background
-    if(key == SDLK_RETURN){
-        SDL_DestroyTexture(Texture);
-        Texture = loadTexture("assets/start_point.png");
-        state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
-    }
+    // if(key == SDLK_RETURN){
+    //     SDL_DestroyTexture(Texture);
+    //     Texture = loadTexture("assets/start_point.png");
+    //     state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
+    // }
 }
