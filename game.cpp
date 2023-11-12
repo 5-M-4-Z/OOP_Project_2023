@@ -166,7 +166,7 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
     start_plane.mover_rect.y-=5;        // The plane moves vertically a liitle bit
 
-    if (start_plane.mover_rect.y < 485){        // This statment only increases the x value of the plane giving 3d look
+    if (start_plane.mover_rect.y < (screen_height/1.71)){        // This statment only increases the x value of the plane giving 3d look
         start_plane.mover_rect.x+=1.5;
     }
 }

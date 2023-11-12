@@ -24,7 +24,7 @@ class Game{
         unsigned state = 0;
 
         //Start game window plane that willl move
-        Plane start_plane = {{111,44,149,182}, {187, 703, 75, 75}};
+        Plane start_plane = {{111,44,149,182}, {122, 560, 75, 75}};     //the array {122, 560, 75,75} will differ from screen to screen
 
         //Creating window that we will be modifying for our game
         SDL_Window* window = NULL;
