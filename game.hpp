@@ -5,6 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <SDL_mixer.h>
 
 
 struct Plane{
