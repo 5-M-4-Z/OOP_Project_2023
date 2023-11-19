@@ -20,7 +20,7 @@ bool Game::init(){
         }
 
         //Creating window
-        window = SDL_CreateWindow( "THE GAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow( "TOP GUN CHALLENGE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_SHOWN);
         if (window == NULL){
             printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
