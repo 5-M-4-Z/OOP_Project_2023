@@ -5,6 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <SDL_mixer.h>
 
 
 struct Plane{
@@ -40,6 +41,7 @@ class Game{
 
         //Music that we fill figure out for later;
         // Mix_Music *bg_music = NULL;
+
 
     public:
         void run(); //to run the game
