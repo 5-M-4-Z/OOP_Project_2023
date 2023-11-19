@@ -44,6 +44,11 @@ bool Game::init(){
                     printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
                 }
+                // if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+				// {
+				// 	printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+				// 	success = false;
+				// }
             }
         }
     }
@@ -63,6 +68,9 @@ void Game::close(){
     SDL_DestroyWindow(window);
     window = NULL;
 
+    // Mix_FreeMusic(bg_music);
+	// bg_music = NULL;
+
     IMG_Quit();
     // Mix_Quit();
     SDL_Quit();
@@ -78,7 +86,11 @@ bool Game::load_media(){
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success = false;
     }
-
+    // bg_music = Mix_LoadMUS("assets/OOPGame.wav");
+	// if(bg_music == NULL){
+	// 	printf("Unable to load music: %s \n", Mix_GetError());
+	// 	success = false;
+	// }
     return success;
 }
 
