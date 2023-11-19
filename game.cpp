@@ -176,11 +176,11 @@ void Game::run(){
 void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     
     SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
-    start_plane.mover_rect.y-=5;        // The plane moves vertically a liitle bit
+    start_plane.mover_rect.y-=2;        // The plane moves vertically a liitle bit
 
-    if (start_plane.mover_rect.y < (screen_height/1.71)){        // This statment only increases the x value of the plane giving 3d look
-        start_plane.mover_rect.x+=1.5;
-    }
+    // if (start_plane.mover_rect.y < (screen_height/1.71)){        // This statment only increases the x value of the plane giving 3d look
+    //     start_plane.mover_rect.x+=1.5;
+    // }
 }
 
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
@@ -191,4 +191,14 @@ void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode k
     //     Texture = loadTexture("assets/start_point.png");
     //     state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
     // }
+    if (key == SDLK_LEFT) {
+        start_plane.mover_rect.x -= 10;  // Moving the planes with keys
+    } else if (key == SDLK_RIGHT) {
+        start_plane.mover_rect.x += 10;  
+    }
+    if (key == SDLK_UP) {
+        start_plane.mover_rect.y -= 10;  
+    } else if (key == SDLK_DOWN) {
+        start_plane.mover_rect.y += 10;  
+    }
 }
