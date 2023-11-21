@@ -229,18 +229,6 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     
 }
 
-void Game::background_mover(SDL_Renderer* renderer, SDL_Texture* Texture, SDL_Rect src, SDL_Rect mover){
-    // SDL_RenderClear(renderer);
-    // SDL_DestroyTexture(Texture);
-
-    // Texture = loadTexture("assets/background.png");            
-    // if (mover.y > -mover.h){
-    //     SDL_RenderCopy(renderer, Texture, &src, &mover);
-    //     mover.y -=2;
-    // }
-
-}
-
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
     
     //When enter key is pressed we destroy the background and make new background

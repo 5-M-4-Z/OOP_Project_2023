@@ -53,6 +53,6 @@ class Game{
         SDL_Texture* loadTexture( std::string path );
         void game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key);
         void game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets);
-        void background_mover(SDL_Renderer* renderer, SDL_Texture* Texture, SDL_Rect src, SDL_Rect mover);
+        // void background_mover(SDL_Renderer* renderer, SDL_Texture* Texture, SDL_Rect src, SDL_Rect mover);
 
 };
