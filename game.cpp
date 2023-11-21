@@ -8,7 +8,7 @@ bool Game::init(){
     bool success = true;
 
     //initializing SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0 ){
+    if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 ){
         printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
         success = false;
     }
@@ -18,7 +18,6 @@ bool Game::init(){
         if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1")){
             printf( "Warning: Linear texture filtering not enabled!" );
         }
-
         //Creating window
         window = SDL_CreateWindow( "TOP GUN CHALLENGE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_SHOWN);
         if (window == NULL){
@@ -44,11 +43,11 @@ bool Game::init(){
                     printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
                 }
-                // if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-				// {
-				// 	printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
-				// 	success = false;
-				// }
+                if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+				{
+					printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+					success = false;
+				}
             }
         }
     }
@@ -68,11 +67,11 @@ void Game::close(){
     SDL_DestroyWindow(window);
     window = NULL;
 
-    // Mix_FreeMusic(bg_music);
-	// bg_music = NULL;
+    Mix_FreeMusic(bg_music);
+	bg_music = NULL;
 
     IMG_Quit();
-    // Mix_Quit();
+    Mix_Quit();
     SDL_Quit();
 }
 
@@ -86,11 +85,17 @@ bool Game::load_media(){
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success = false;
     }
-    // bg_music = Mix_LoadMUS("assets/OOPGame.wav");
-	// if(bg_music == NULL){
-	// 	printf("Unable to load music: %s \n", Mix_GetError());
-	// 	success = false;
-	// }
+    bg_music = Mix_LoadMUS( "assets/OOPGame.wav" );
+	if(bg_music == NULL){
+		printf("Unable to load music: %s \n", Mix_GetError());
+		success = false;
+	}
+    if (Mix_PlayMusic(bg_music, -1) == -1) {
+    printf("Unable to play music: %s\n", Mix_GetError());
+    success = false;
+    }
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 16);    
+    
     return success;
 }
 
@@ -125,7 +130,6 @@ void Game::run(){
             if (event.type == SDL_QUIT){
                 quit_game = true;
             }
-
             if (event.type == SDL_KEYDOWN){
                 //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
                 game_start(renderer, assets, event.key.keysym.sym);
@@ -175,12 +179,26 @@ void Game::run(){
 
 void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
     
-    SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
-    start_plane.mover_rect.y-=2;        // The plane moves vertically a liitle bit
+    // SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
+    // start_plane.mover_rect.y-=5;        // The plane moves vertically a liitle bit
 
-    // if (start_plane.mover_rect.y < (screen_height/1.71)){        // This statment only increases the x value of the plane giving 3d look
-    //     start_plane.mover_rect.x+=1.5;
-    // }
+    if (start_plane.mover_rect.y < (screen_height/2.0)){        // This statment only increases the x value of the plane giving 3d look
+        start_plane.mover_rect.x+=1.5;
+    }
+
+    if (start_plane.mover_rect.y > -(start_plane.mover_rect.h)) {
+        // Render the plane at its updated position
+        SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
+        // Move the plane upward
+        start_plane.mover_rect.y -= 5;
+    } else {
+        // If the plane has reached the top, change the background and reset the plane's position
+        SDL_DestroyTexture(Texture);
+        Texture = loadTexture("assets/background.png");
+        // start_plane.mover_rect.y = screen_height; // Reset the plane to the bottom of the screen
+    }
+    
+    
 }
 
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
@@ -201,4 +219,5 @@ void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode k
     } else if (key == SDLK_DOWN) {
         start_plane.mover_rect.y += 10;  
     }
+    
 }
