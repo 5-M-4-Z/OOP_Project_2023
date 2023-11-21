@@ -123,6 +123,8 @@ void Game::run(){
     bool quit_game = false;
     SDL_Event event;
 
+    SDL_Rect Texture_src = {0, 1270, 500, 650}, Texture_mover = {0, 0, 500, 650};
+
     //Infinite loop untill the user quits the game
     while(!quit_game){
         
@@ -130,10 +132,12 @@ void Game::run(){
             if (event.type == SDL_QUIT){
                 quit_game = true;
             }
-            if (event.type == SDL_KEYDOWN){
-                //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
-                game_start(renderer, assets, event.key.keysym.sym);
-            }
+
+            // if (event.type == SDL_KEYDOWN){
+            //     //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
+            //     game_start(renderer, assets, event.key.keysym.sym);
+            // }
+            
                 // This is just to see the exact co-ordinate that will help in future for placing planes at exact point
             if (event.type == SDL_MOUSEBUTTONDOWN){
                 int xMouse, yMouse;
@@ -163,10 +167,36 @@ void Game::run(){
 
 
         // Using if statements since different states would require different delays
+        // std::cout <<state<<'\n';
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
             SDL_Delay(20);
+        }
+        else if (state == 2){
+            //Now we need to update the renderer so there is a new background with a plane that will be controlled
+
+            
+            // background_mover(renderer, Texture, Texture_src, Texture_mover);
+            // std::cout << Texture_mover.x << " " << Texture_mover.y << " " << Texture_mover.w << " " << Texture_mover.h << '\n';
+
+            SDL_RenderClear(renderer);
+            SDL_DestroyTexture(Texture);
+
+            Texture = loadTexture("assets/background.png");            
+            if (Texture_mover.y > -Texture_mover.h){
+                SDL_RenderCopy(renderer, Texture, &Texture_src, &Texture_mover);
+                Texture_mover.y +=2;
+                Texture_src.y -=10;
+            }
+            
+
+            
+            SDL_RenderPresent(renderer);
+            SDL_Delay(20);
+            
+
+            // SDL_Rect 
         }
         else{
             SDL_RenderPresent(renderer);
@@ -192,13 +222,23 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
         // Move the plane upward
         start_plane.mover_rect.y -= 5;
     } else {
-        // If the plane has reached the top, change the background and reset the plane's position
-        SDL_DestroyTexture(Texture);
-        Texture = loadTexture("assets/background.png");
-        // start_plane.mover_rect.y = screen_height; // Reset the plane to the bottom of the screen
+        // if the plane reaches the top of the screen change the state of the game to 2 (where the game start)
+        state = 2;
     }
     
     
+}
+
+void Game::background_mover(SDL_Renderer* renderer, SDL_Texture* Texture, SDL_Rect src, SDL_Rect mover){
+    // SDL_RenderClear(renderer);
+    // SDL_DestroyTexture(Texture);
+
+    // Texture = loadTexture("assets/background.png");            
+    // if (mover.y > -mover.h){
+    //     SDL_RenderCopy(renderer, Texture, &src, &mover);
+    //     mover.y -=2;
+    // }
+
 }
 
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
