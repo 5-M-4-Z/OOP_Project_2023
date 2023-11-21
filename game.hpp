@@ -40,7 +40,7 @@ class Game{
         SDL_Texture* assets = NULL;
 
         //Music that we fill figure out for later;
-        // Mix_Music *bg_music = NULL;
+        Mix_Music *bg_music = NULL;
 
 
     public:
