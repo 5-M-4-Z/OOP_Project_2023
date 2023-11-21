@@ -191,7 +191,7 @@ void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode k
     //     Texture = loadTexture("assets/start_point.png");
     //     state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
     // }
-    if (key == SDLK_LEFT) {
+    if (key == SDLK_LEFT) { 
         start_plane.mover_rect.x -= 10;  // Moving the planes with keys
     } else if (key == SDLK_RIGHT) {
         start_plane.mover_rect.x += 10;  
