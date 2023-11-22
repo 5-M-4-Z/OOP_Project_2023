@@ -123,7 +123,7 @@ void Game::run(){
     bool quit_game = false;
     SDL_Event event;
 
-    SDL_Rect Texture_src = {0, 1270, 500, 650}, Texture_mover = {0, 0, 500, 650};
+    SDL_Rect Texture_src = {0, 1270, 500, 650};
 
     //Infinite loop untill the user quits the game
     while(!quit_game){
@@ -132,6 +132,8 @@ void Game::run(){
             if (event.type == SDL_QUIT){
                 quit_game = true;
             }
+
+            //We will need the folowing if statement only when the player starts playing 
 
             // if (event.type == SDL_KEYDOWN){
             //     //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
@@ -167,7 +169,8 @@ void Game::run(){
 
 
         // Using if statements since different states would require different delays
-        // std::cout <<state<<'\n';
+        //Future plan: Use switch which would be maybe faster and would look more suitable for this scenerio
+
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
@@ -175,28 +178,18 @@ void Game::run(){
         }
         else if (state == 2){
             //Now we need to update the renderer so there is a new background with a plane that will be controlled
-
             
-            // background_mover(renderer, Texture, Texture_src, Texture_mover);
-            // std::cout << Texture_mover.x << " " << Texture_mover.y << " " << Texture_mover.w << " " << Texture_mover.h << '\n';
+            //The following code updates the renderer everytime making it look as the background is moving 
 
             SDL_RenderClear(renderer);
             SDL_DestroyTexture(Texture);
 
             Texture = loadTexture("assets/background.png");            
-            if (Texture_mover.y > -Texture_mover.h){
-                SDL_RenderCopy(renderer, Texture, &Texture_src, &Texture_mover);
-                Texture_mover.y +=2;
-                Texture_src.y -=10;
+            if (Texture_src.y > -Texture_src.h){
+                SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
+                Texture_src.y -=0.01;
             }
-            
-
-            
             SDL_RenderPresent(renderer);
-            SDL_Delay(20);
-            
-
-            // SDL_Rect 
         }
         else{
             SDL_RenderPresent(renderer);
@@ -208,9 +201,6 @@ void Game::run(){
 }
 
 void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
-    
-    // SDL_RenderCopy(renderer, assets, &start_plane.src_rect, &start_plane.mover_rect);
-    // start_plane.mover_rect.y-=5;        // The plane moves vertically a liitle bit
 
     if (start_plane.mover_rect.y < (screen_height/2.0)){        // This statment only increases the x value of the plane giving 3d look
         start_plane.mover_rect.x+=1.5;
@@ -230,13 +220,7 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
 }
 
 void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
-    
-    //When enter key is pressed we destroy the background and make new background
-    // if(key == SDLK_RETURN){
-    //     SDL_DestroyTexture(Texture);
-    //     Texture = loadTexture("assets/start_point.png");
-    //     state = 1;      //The state changes from 0 to 1 implying main screen to small intro animation
-    // }
+    //The function will be later modified as a mover for the players plane 
     if (key == SDLK_LEFT) { 
         start_plane.mover_rect.x -= 10;  // Moving the planes with keys
     } else if (key == SDLK_RIGHT) {
