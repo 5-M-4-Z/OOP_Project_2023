@@ -1,5 +1,5 @@
 #include "game.hpp"
-// #include "GameObject.hpp"
+#include "Player.hpp"
 
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
@@ -185,9 +185,15 @@ void Game::run(){
             Texture = loadTexture("assets/background.png");            
             if (Texture_src.y > -Texture_src.h){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
+                
                 Texture_src.y -=0.01;
+                Player player((screen_width/2) -38, screen_height-75);
+                player.display(renderer, assets);
+
             }
             SDL_RenderPresent(renderer);
+
+
         }
         else{
             SDL_RenderPresent(renderer);

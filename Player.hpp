@@ -1,9 +1,10 @@
-#include "GameObject.hpp"
-#include "game.hpp"
+#include <SDL.h>
+
 #pragma once
 
-class Player:public GameObject{
+class Player{
     private:
+        SDL_Rect src, mover;
         int health=100, exp=0, power=20;
     public:
         Player(int x, int y);

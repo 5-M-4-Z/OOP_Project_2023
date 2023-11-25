@@ -1,8 +1,8 @@
 #include "Player.hpp"
 
 Player::Player(int x, int y){
-    SDL_Rect src = {111,44,149,182};    mover = {x, y, 75, 75};
-    GameObject::GameObject(src, mover);
+    src = {111,44,149,182};    mover = {x, y, 75, 75};
+
 }
 
 void Player::gainExp(){
@@ -14,18 +14,18 @@ void Player::gainPow(){
 }
 
 void Player::move(char c){
-    if (c == "N"){
+    if (c == 'N'){
         mover.y -= 2;
     }
 
-    if (c == "S"){
+    if (c == 'S'){
         mover.y += 2;
     }
 
-    if (c == "E"){
+    if (c == 'E'){
         mover.x += 2;
     }
-    if (c == "W"){
+    if (c == 'W'){
         mover.x -= 2;
     }
 }
