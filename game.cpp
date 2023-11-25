@@ -183,7 +183,7 @@ void Game::run(){
 
             SDL_RenderClear(renderer);
             SDL_DestroyTexture(Texture);
-
+ 
             Texture = loadTexture("assets/background.png");            
             if (Texture_src.y > -Texture_src.h){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
