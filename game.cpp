@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "Player.hpp"
 
+
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
     bool success = true;
@@ -121,7 +122,10 @@ void Game::run(){
     bool quit_game = false;
     SDL_Event event;
 
-    SDL_Rect Texture_src = {0, 1270, 500, 650};
+    SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
+
+    Player player((screen_width/2) -38, screen_height-75);  //This is the player's plane
+
 
     //Infinite loop untill the user quits the game
     while(!quit_game){
@@ -187,9 +191,11 @@ void Game::run(){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
                 
                 Texture_src.y -=0.01;
-                Player player((screen_width/2) -38, screen_height-75);
-                player.display(renderer, assets);
 
+                player.move(event.key.keysym.sym);
+                
+                player.display(renderer, assets);
+                
             }
             SDL_RenderPresent(renderer);
 
