@@ -1,7 +1,5 @@
 #include "game.hpp"
-
-
-
+// #include "GameObject.hpp"
 
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
