@@ -163,6 +163,13 @@ void Game::run(){
                     quit_game = true;
                 }
             }
+
+            if (state == 2){
+                const Uint8* state = SDL_GetKeyboardState(NULL);
+                if ((state[SDL_SCANCODE_F] == ' ')){
+                    player.set_delay(0);
+                }
+            }
         }   
 
         SDL_RenderClear(renderer);
@@ -192,6 +199,10 @@ void Game::run(){
                 Texture_src.y -=0.01;
                 player.move(screen_width, screen_height);
                 player.display(renderer, assets);
+
+                player.shoot();
+                player.move_bullet();
+                player.display_bullet(renderer, assets);
                 
             }
             SDL_RenderPresent(renderer);
