@@ -163,7 +163,6 @@ void Game::run(){
                     quit_game = true;
                 }
             }
-
         }   
 
         SDL_RenderClear(renderer);
@@ -191,9 +190,7 @@ void Game::run(){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
                 
                 Texture_src.y -=0.01;
-
-                player.move(event.key.keysym.sym);
-                
+                player.move(screen_width, screen_height);
                 player.display(renderer, assets);
                 
             }

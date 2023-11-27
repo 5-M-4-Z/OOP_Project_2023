@@ -1,5 +1,5 @@
 #include "Player.hpp"
-using namespace std;
+#include <iostream>
 
 Player::Player(int x, int y){
     src = {111,44,149,182};    mover = {x, y, 75, 75};
@@ -14,21 +14,22 @@ void Player::gainPow(){
     power*=2;
 }
 
-void Player::move(SDL_Keycode key){
-    if (key == SDLK_w){
-        mover.y -= 5;
-    }
+void Player::move(int width, int height){
+    const Uint8* state = SDL_GetKeyboardState(NULL);
 
-    if (key == SDLK_s){
-        mover.y += 5;
+    if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]){
+        if (mover.y-5 >0)   mover.y-=5;
     }
-
-    if (key == SDLK_d){
-        mover.x += 5;
+    if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN]){
+        if (mover.y+5<height-75)    mover.y+=5;
     }
-    if (key == SDLK_a || key == SDLK_LEFT){
-        mover.x -= 5;
+    if (state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT]){
+        if (mover.x+5<width-75) mover.x+=5;
     }
+    if (state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT]){
+        if (mover.x-5>0)    mover.x-=5;
+    }
+    //std::cout << mover.x << " " << mover.y << '\n';
 }
 
 void Player::shoot(){
