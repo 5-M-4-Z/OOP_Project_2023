@@ -1,6 +1,6 @@
 #include "game.hpp"
 #include "Player.hpp"
-
+#include "Enemy.hpp"
 
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
@@ -125,7 +125,9 @@ void Game::run(){
     SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
 
     Player player((screen_width/2) -38, screen_height-75);  //This is the player's plane
-
+    
+    int x_coord = rand() % (screen_width);
+    Enemy enemy(x_coord,0);   //This is the enemy's plane
 
     //Infinite loop untill the user quits the game
     while(!quit_game){
@@ -204,10 +206,15 @@ void Game::run(){
                 player.move_bullet();
                 player.display_bullet(renderer, assets);
                 
+                
+                enemy.move();
+                enemy.display(renderer, assets);
+
+                enemy.shoot();
+                enemy.move_bullet();
+                enemy.display_bullet(renderer, assets);       
             }
             SDL_RenderPresent(renderer);
-
-
         }
         else{
             SDL_RenderPresent(renderer);
