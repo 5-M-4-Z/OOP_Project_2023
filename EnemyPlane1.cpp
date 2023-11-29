@@ -21,7 +21,7 @@ void EnemyPlane1::move(){
 
 void EnemyPlane1::shoot(){
     if (shootTimer == 50) { // Adjust the frequency of shooting
-        bullets_array.push_back(Bullet(mover.x + mover.w / 2, mover.y + mover.h, -1)); // Pass -1 for downwards direction
+        bullets_array.push_back(Bullet(mover.x,mover.y)); // Pass -1 for downwards direction
         shootTimer = 0;
     } else {
         shootTimer++;

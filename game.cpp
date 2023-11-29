@@ -1,6 +1,6 @@
 #include "game.hpp"
 #include "Player.hpp"
-#include "Enemy.hpp"
+#include "TopGun.hpp"
 
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
@@ -126,8 +126,12 @@ void Game::run(){
 
     Player player((screen_width/2) -38, screen_height-75);  //This is the player's plane
     
-    int x_coord = rand() % (screen_width);
-    Enemy enemy(x_coord,0);   //This is the enemy's plane
+    TopGun topgun;
+
+    // int x_coord = rand() % (screen_width);
+    // Enemy enemy(x_coord,0);   //This is the enemy's plane
+    clock_t lastCreationTime = clock(); // Initialize with current time
+    const int creationInterval = CLOCKS_PER_SEC * 5; // 2 seconds
 
     //Infinite loop untill the user quits the game
     while(!quit_game){
@@ -206,13 +210,24 @@ void Game::run(){
                 player.move_bullet();
                 player.display_bullet(renderer, assets);
                 
-                
-                enemy.move();
-                enemy.display(renderer, assets);
 
-                enemy.shoot();
-                enemy.move_bullet();
-                enemy.display_bullet(renderer, assets);       
+                clock_t currentTime = clock();
+                if ((currentTime - lastCreationTime) >= creationInterval) {
+                    int x_coord = rand() % (screen_width-75);
+                    // Add the new object to HUMania
+                    topgun.createObject(x_coord,0);
+                    // Update the last creation time
+                    lastCreationTime = currentTime;
+                }
+
+                // Render and move existing objects in HUMania
+                topgun.drawObjects(renderer,assets);
+                // enemy.move();
+                // enemy.display(renderer, assets);
+
+                // enemy.shoot();
+                // enemy.move_bullet();
+                // enemy.display_bullet(renderer, assets);       
             }
             SDL_RenderPresent(renderer);
         }
