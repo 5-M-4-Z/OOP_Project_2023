@@ -58,3 +58,20 @@ void EnemyPlane1::move_bullet(){
         bullets_array[i].move_bullet(0);
     }
 }
+
+void EnemyPlane1::collision(SDL_Rect enmy_mover){
+    for (auto bullet : bullets_array){
+        SDL_Rect bullet_mover = bullet.get_mover();
+        
+        if (SDL_HasIntersection(&bullet_mover, &enmy_mover)){
+            std::cout << "enemy bullet to player\n";
+        }
+    }
+}
+
+void EnemyPlane1::collision_player_bullet(Player player){
+
+    for(auto bullet : bullets_array){
+        player.collision_enemy_bullet(bullet);
+    }
+}
