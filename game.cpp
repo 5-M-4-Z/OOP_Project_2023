@@ -222,6 +222,7 @@ void Game::run(){
 
                 // Render and move existing objects in HUMania
                 topgun.drawObjects(renderer,assets);
+                topgun.display_bullet(renderer, assets);
                 // enemy.move();
                 // enemy.display(renderer, assets);
 
