@@ -22,4 +22,7 @@ class Player{
         void move_bullet();
         void set_delay(int x);
         int get_f_pressed();
+        SDL_Rect get_mover();
+        void collision(SDL_Rect enmy_mover);
+        void collision_enemy_bullet(Bullet enmy_bullet);
 };

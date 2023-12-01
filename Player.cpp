@@ -68,3 +68,28 @@ void Player::move_bullet(){
 void Player::set_delay(int x){delay = x;}
 
 int Player::get_f_pressed(){return f_pressed;}
+
+SDL_Rect Player::get_mover(){
+    return mover;
+}
+
+void Player::collision(SDL_Rect enmy_mover){
+    for (auto bullet : bullets_array){
+        SDL_Rect bullet_mover = bullet.get_mover();
+        
+        if (SDL_HasIntersection(&bullet_mover, &enmy_mover)){
+            std::cout << "plane bullet to enmy\n";
+        }
+    }
+}
+
+void Player::collision_enemy_bullet(Bullet enmy_bullet){
+    SDL_Rect enmy_mover = enmy_bullet.get_mover();
+    for (auto bullet : bullets_array){
+        SDL_Rect bullet_mover = bullet.get_mover();
+        
+        if (SDL_HasIntersection(&bullet_mover, &enmy_mover)){
+            std::cout << "plane bullet to enmy bullet\n";
+        }
+    }
+}
