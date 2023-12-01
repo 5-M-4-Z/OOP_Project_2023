@@ -8,5 +8,6 @@ protected:    // Protected bcz we want to access these variables in the derived 
 public:
     void draw(SDL_Renderer* renderer, SDL_Texture* assets);
     virtual void move();  
+    virtual void display_bullet(SDL_Renderer* renderer, SDL_Texture* assets);
     // virtual void shoot();  
 };

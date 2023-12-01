@@ -5,3 +5,4 @@ void Object::draw(SDL_Renderer* renderer, SDL_Texture* assets){              // 
     SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL); 
 }
 void Object::move(){};
+void Object::display_bullet(SDL_Renderer* renderer, SDL_Texture* assets){};
