@@ -11,6 +11,10 @@ Bullet::Bullet(int x, int y){
 void Bullet::move_bullet(){
     mover.y-=5;
 }
+void Bullet::move_bullet(int dummy){
+    //This dummy argument only adds an overload function to identify between enemy bullet and players bullet
+    mover.y+=7;
+}
 
 void Bullet::destroy(){
     if (bullet_state == 1){
@@ -41,4 +45,9 @@ void Bullet::destroy(){
 
 void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets){
     SDL_RenderCopy(renderer, assets, &src, &mover);
+}
+
+void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets, int x){
+    // int x is only dummy vaariable to identify enemy bullets 
+    SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
 }
