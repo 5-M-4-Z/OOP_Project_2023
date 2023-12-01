@@ -15,4 +15,5 @@ class Bullet {
         void display(SDL_Renderer* renderer, SDL_Texture* assets, int x);
         void destroy();
         void move_bullet(int dummy);
+        SDL_Rect get_mover();
 };

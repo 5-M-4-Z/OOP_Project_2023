@@ -51,3 +51,7 @@ void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets, int x){
     // int x is only dummy vaariable to identify enemy bullets 
     SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
 }
+
+SDL_Rect Bullet::get_mover(){
+    return mover;
+}
