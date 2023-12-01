@@ -223,12 +223,9 @@ void Game::run(){
                 // Render and move existing objects in HUMania
                 topgun.drawObjects(renderer,assets);
                 topgun.display_bullet(renderer, assets);
-                // enemy.move();
-                // enemy.display(renderer, assets);
 
-                // enemy.shoot();
-                // enemy.move_bullet();
-                // enemy.display_bullet(renderer, assets);       
+                // Checking collision and deleting in collision function
+                topgun.collision(player);
             }
             SDL_RenderPresent(renderer);
         }
