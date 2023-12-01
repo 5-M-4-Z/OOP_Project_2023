@@ -1,5 +1,7 @@
 #include<SDL.h>
 #include "EnemyPlane1.hpp"
+#include "Player.hpp"
+
 #include<vector>
 #include<list>
 using namespace std;
@@ -14,4 +16,5 @@ public:
     // create destructor which deletes all dynamic objects
     // ~TopGun();
     void display_bullet(SDL_Renderer* renderer, SDL_Texture* assets);
+    void collision(Player obj);
 };

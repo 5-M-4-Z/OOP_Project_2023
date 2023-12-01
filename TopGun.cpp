@@ -35,3 +35,24 @@ void TopGun::display_bullet(SDL_Renderer* renderer, SDL_Texture* assets){
         enemy->display_bullet(renderer, assets);
     }
 }
+
+void TopGun::collision(Player player){
+    SDL_Rect player_mover = player.get_mover();
+
+    for (Object* enemy : lst){
+        SDL_Rect enmy_mover = enemy->get_mover();
+        // Checks if player and enemy collide
+        if (SDL_HasIntersection(&player_mover, &enmy_mover)){   // collision works here plane to plane 
+            std::cout << "plane plane\n";
+        }
+        
+        // Check if player's bullet collide with enemy
+            player.collision(enmy_mover);
+        // Check if enemy's bullet collide with player
+            enemy->collision(player_mover);
+        // Check if player's bullet collide with enemy's bullet
+            enemy->collision_player_bullet(player);
+    }
+
+
+}
