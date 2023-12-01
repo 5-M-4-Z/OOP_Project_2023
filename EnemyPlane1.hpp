@@ -17,7 +17,7 @@ public:
     void display_bullet(SDL_Renderer* renderer, SDL_Texture* assets);
     void move_bullet();
     void set_delay(int x);
-    EnemyPlane1(int x, int y);
+    EnemyPlane1(int x, int y, int random);
     EnemyPlane1();
     // ~EnemyPlane1();
 };
