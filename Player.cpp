@@ -39,7 +39,7 @@ void Player::shoot(){
         f_pressed = 1;
     }
 
-    std::cout << delay << '\n';
+    // std::cout << delay << '\n';
     if (f_pressed && delay == 0){
         Bullet bullet(mover.x, mover.y);
         bullets_array.push_back(bullet);
