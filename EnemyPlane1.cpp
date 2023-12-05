@@ -27,15 +27,18 @@ EnemyPlane1::EnemyPlane1(int x, int y, int random)
         src =  {877, 520, 248, 99};
         mover = {x, y, 75, 75};
     }
+    health.set_mvr(x, y+55, 75);   health.set_src();
     shootTimer = 0;
 }
 
 void EnemyPlane1::display(SDL_Renderer* renderer, SDL_Texture* assets){
     SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
+    health.display(renderer, assets);
 }
 
 void EnemyPlane1::move(){
     mover.y += 3;
+    health.move(0,+3);
 }
 
 void EnemyPlane1::shoot(){

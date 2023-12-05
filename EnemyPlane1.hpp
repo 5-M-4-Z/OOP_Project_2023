@@ -9,8 +9,8 @@
 class EnemyPlane1 : public Object
 {
 private:
-    int delay;
-    int shootTimer;
+    int delay, shootTimer, health_factor;
+    Health health;
 public:
     void move();
     void shoot();
