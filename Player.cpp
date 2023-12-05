@@ -4,7 +4,8 @@
 Player::Player(int x, int y){
     src = {111,44,149,182};    mover = {x, y, 75, 75};
     delay = 0;
-
+    health.set_mvr(x, y, 75);
+    health.set_src();
 }
 
 void Player::gainExp(){
@@ -18,19 +19,30 @@ void Player::gainPow(){
 void Player::move(int width, int height){
     const Uint8* state = SDL_GetKeyboardState(NULL);
 
-    if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]){
-        if (mover.y-5 >0)   mover.y-=5;
+    if ((state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]) && mover.y > height/2){
+        if (mover.y-5 >0){
+            mover.y-=5;
+            health.move(0,-5);
+        }
     }
     if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN]){
-        if (mover.y+5<height-75)    mover.y+=5;
+        if (mover.y+5<height-75){
+            mover.y+=5;
+            health.move(0,+5);
+        }
     }
     if (state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT]){
-        if (mover.x+5<width-75) mover.x+=5;
+        if (mover.x+5<width-75){
+            mover.x+=5;
+            health.move(+5, 0);
+        }
     }
     if (state[SDL_SCANCODE_A] || state[SDL_SCANCODE_LEFT]){
-        if (mover.x-5>0)    mover.x-=5;
+        if (mover.x-5>0){
+            mover.x-=5;
+            health.move(-5,0);
+        }
     }
-    //std::cout << mover.x << " " << mover.y << '\n';
 }
 
 void Player::shoot(){
@@ -43,7 +55,7 @@ void Player::shoot(){
     if (f_pressed && delay == 0){
         Bullet bullet(mover.x, mover.y);
         bullets_array.push_back(bullet);
-        delay = -5;
+        delay = -7;
         f_pressed = 0;
     }
     else if (f_pressed) {delay++;}
@@ -51,6 +63,7 @@ void Player::shoot(){
 
 void Player::display(SDL_Renderer* renderer, SDL_Texture* assets){
     SDL_RenderCopy(renderer, assets, &src, &mover);
+    this->health.display(renderer, assets);
 }
 
 void Player::display_bullet(SDL_Renderer* renderer, SDL_Texture* assets){
@@ -60,10 +73,20 @@ void Player::display_bullet(SDL_Renderer* renderer, SDL_Texture* assets){
 }
 
 void Player::move_bullet(){
+    int x;
     for (int i=0; i<bullets_array.size(); i++){
-        bullets_array[i].move_bullet();
+       bullets_array[i].move_bullet();
+        int h = (bullets_array[i].get_mover()).y;
+        
+        if (h < -10){
+            bullets_array.erase(bullets_array.begin() + i);
+            std::cout << "bullet destroyed\n";
+            x += 1;
+        }
     }
 }
+
+        
 
 void Player::set_delay(int x){delay = x;}
 
@@ -71,25 +94,4 @@ int Player::get_f_pressed(){return f_pressed;}
 
 SDL_Rect Player::get_mover(){
     return mover;
-}
-
-void Player::collision(SDL_Rect enmy_mover){
-    for (auto bullet : bullets_array){
-        SDL_Rect bullet_mover = bullet.get_mover();
-        
-        if (SDL_HasIntersection(&bullet_mover, &enmy_mover)){
-            std::cout << "plane bullet to enmy\n";
-        }
-    }
-}
-
-void Player::collision_enemy_bullet(Bullet enmy_bullet){
-    SDL_Rect enmy_mover = enmy_bullet.get_mover();
-    for (auto bullet : bullets_array){
-        SDL_Rect bullet_mover = bullet.get_mover();
-        
-        if (SDL_HasIntersection(&bullet_mover, &enmy_mover)){
-            std::cout << "plane bullet to enmy bullet\n";
-        }
-    }
 }
