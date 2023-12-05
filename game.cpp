@@ -1,6 +1,6 @@
 #include "game.hpp"
-#include "Player.hpp"
-#include "TopGun.hpp"
+// #include "player->hpp"
+// #include "TopGun.hpp"
 
 bool Game::init(){
     //variable that will tell whether the initialization was successful or not
@@ -123,10 +123,8 @@ void Game::run(){
     SDL_Event event;
 
     SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
-
-    Player player((screen_width/2) -38, screen_height-75);  //This is the player's plane
     
-    TopGun topgun;
+    // TopGun topgun;
 
     // int x_coord = rand() % (screen_width);
     // Enemy enemy(x_coord,0);   //This is the enemy's plane
@@ -173,7 +171,7 @@ void Game::run(){
             if (state == 2){
                 const Uint8* state = SDL_GetKeyboardState(NULL);
                 if ((state[SDL_SCANCODE_F] == ' ')){
-                    player.set_delay(0);
+                    player->set_delay(0);
                 }
             }
         }   
@@ -188,7 +186,7 @@ void Game::run(){
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
-            SDL_Delay(20);
+            SDL_Delay(0);   // delay set to 0 for now
         }
         else if (state == 2){
             //Now we need to update the renderer so there is a new background with a plane that will be controlled
@@ -203,29 +201,59 @@ void Game::run(){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
                 
                 Texture_src.y -=0.01;
-                player.move(screen_width, screen_height);
-                player.display(renderer, assets);
+                player->move(screen_width, screen_height);
+                player->display(renderer, assets);
 
-                player.shoot();
-                player.move_bullet();
-                player.display_bullet(renderer, assets);
+                player->shoot();
+                player->move_bullet();
+                player->display_bullet(renderer, assets);
                 
 
                 clock_t currentTime = clock();
                 if ((currentTime - lastCreationTime) >= creationInterval) {
-                    int x_coord = rand() % (screen_width-75);
-                    // Add the new object to HUMania
-                    topgun.createObject(x_coord,0);
+                    int x = rand() % (screen_width-75);
+                    // Add the new object to vector of enemy plane
+                    enemy_vector.push_back(new EnemyPlane1(x, 0, (rand() % 4)));
+
                     // Update the last creation time
                     lastCreationTime = currentTime;
                 }
 
-                // Render and move existing objects in HUMania
-                topgun.drawObjects(renderer,assets);
-                topgun.display_bullet(renderer, assets);
+                // Render and move existing objects in vector of enemy plane
+                for (int i=0; i <enemy_vector.size(); i++){
+                    Object * enemy = enemy_vector[i];
+                    SDL_Rect mover = enemy->get_mover();
+                    if (mover.y < screen_height){
+                        enemy->display(renderer,assets);
+                        enemy->move();
+                        enemy->move_bullet(screen_height);
+                        enemy->display_bullet(renderer, assets);
+                    }
+                    else {
+                        enemy_vector.erase(enemy_vector.begin() + i);
+                        std::cout << "enemy deleted\n";
+                    }
+                }
 
-                // Checking collision and deleting in collision function
-                topgun.collision(player);
+
+                // Checking collision enemy bullet to player 
+                SDL_Rect p_mvr = player->get_mover();
+                for (auto enemy : enemy_vector){
+                    SDL_Rect enmy_mvr = enemy->get_mover();
+                    if (SDL_HasIntersection(&p_mvr, &enmy_mvr)){
+                        std::cout << "Plane Plane\n";
+                    }
+                    if (player->collision_current_opponent_bullet(enemy)){
+                        std::cout << "Player bullet hit enemy\n";
+                    }
+                    if (enemy->collision_current_opponent_bullet(player)){
+                        std::cout << "enemy bullet hit player\n";
+                    }
+                    player->collision_player_enemy_bullet(enemy);
+                }
+                
+
+
             }
             SDL_RenderPresent(renderer);
         }
