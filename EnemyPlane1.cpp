@@ -8,6 +8,7 @@ EnemyPlane1::EnemyPlane1(){
     // it will display plane on x = 250, y = 50 location, the size of plane is 75 width, 75 height
     mover = {250, 50, 75, 75};
     name = "enemy";
+    destroyed = 0;
 }
 EnemyPlane1::EnemyPlane1(int x, int y, int random)
 {
