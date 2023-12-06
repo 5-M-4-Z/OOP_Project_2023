@@ -41,3 +41,5 @@ void Object::collision_player_enemy_bullet(Object* opponent){
         }
     }
 }
+
+void Object::add(){}

@@ -9,6 +9,7 @@
 class Object{
 protected:    // Protected bcz we want to access these variables in the derived classes.
     SDL_Rect src, mover;
+    bool destroyed;
     std::string name;
     std::vector<Bullet> bullets_array;
 public:
@@ -26,4 +27,6 @@ public:
 
     bool collision_current_opponent_bullet(Object* opponent);
     void collision_player_enemy_bullet(Object* opponent);
+
+    virtual void add();
 };
