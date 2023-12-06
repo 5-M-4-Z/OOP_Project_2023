@@ -245,6 +245,7 @@ void Game::run(){
                     }
                     if (player->collision_current_opponent_bullet(enemy)){
                         std::cout << "Player bullet hit enemy\n";
+                        player->add();
                     }
                     if (enemy->collision_current_opponent_bullet(player)){
                         std::cout << "enemy bullet hit player\n";
