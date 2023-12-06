@@ -4,16 +4,19 @@
 Player::Player(int x, int y){
     src = {111,44,149,182};    mover = {x, y, 75, 75};
     delay = 0;
-    health.set_mvr(x, y, 75);
-    health.set_src();
+    health.set_mvr(x, y, 75);   health.set_src();
+    health_factor = 100;
+    power = 20;
+    exp = 0;
+    destroyed = 0;
 }
 
 void Player::gainExp(){
-    exp++;
+    exp+=2;
 }
 
 void Player::gainPow(){
-    power*=2;
+    power*=1.5;
 }
 
 void Player::move(int width, int height){
@@ -64,6 +67,7 @@ void Player::shoot(){
 void Player::display(SDL_Renderer* renderer, SDL_Texture* assets){
     SDL_RenderCopy(renderer, assets, &src, &mover);
     this->health.display(renderer, assets);
+    this->score.display(renderer, assets);
 }
 
 void Player::display_bullet(SDL_Renderer* renderer, SDL_Texture* assets){
@@ -94,4 +98,8 @@ int Player::get_f_pressed(){return f_pressed;}
 
 SDL_Rect Player::get_mover(){
     return mover;
+}
+
+void Player::add(){
+    score.increment();
 }

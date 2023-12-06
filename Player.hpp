@@ -4,14 +4,17 @@
 #include "Bullet.hpp"
 #include "Object.hpp"
 #include "Health.hpp"
+#include "Score.hpp"
+
 #pragma once
 
 class Player: public Object{
     private:
-        int health_factor = 100, exp=0, power=20;
+        int health_factor, exp, power;
         int delay;
         bool f_pressed;
         Health health;
+        Score score;
     public:
         Player(int x, int y);
         void move(int width, int height);
@@ -24,4 +27,5 @@ class Player: public Object{
         void set_delay(int x);
         int get_f_pressed();
         SDL_Rect get_mover();
+        void add();
 };
