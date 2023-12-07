@@ -11,4 +11,6 @@ class Health: public Object{
         void display(SDL_Renderer* renderer, SDL_Texture* assets);
         void set_src();
         void move(int x, int y);
+        void reduce_health(int value);
+        int get_health();
 };

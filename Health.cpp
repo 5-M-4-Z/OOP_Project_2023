@@ -16,3 +16,9 @@ void Health::move(int x, int y){
     mover.x += x;
     mover.y += y;
 }
+
+void Health::reduce_health(int value){
+    mover.w -= value/2;
+}
+
+int Health::get_health(){return mover.w;}
