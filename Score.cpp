@@ -11,7 +11,10 @@ Score::Score(){
 void Score::display(SDL_Renderer* renderer, SDL_Texture* assets){
     mover.w = (score_vector.size()*30) + (gap_x*2);
     SDL_RenderCopy(renderer, assets, &src, &mover);
+
     int size = score_vector.size() - 1;
+
+    this->set_mvr_src();
     for (int i=size; i>-1; i--){
         // std::cout << "index: " << i << " element: " << score_vector[i] << '\n';
         SDL_Rect temp_src = (score_src_mvr_vector[i]).src, temp_mvr = (score_src_mvr_vector[i]).mvr;
@@ -42,7 +45,7 @@ void Score::increment(){
             }
             i++;
         }
-        set_mvr_src();
+        // set_mvr_src();
     }
 }
 
