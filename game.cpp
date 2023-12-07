@@ -250,11 +250,11 @@ void Game::run(){
                         player->explode(renderer, assets);
                         enemy->explode(renderer, assets);
                     }
-                    if (player->collision_current_opponent_bullet(enemy)){
+                    if (player->collision_current_opponent_bullet(enemy, renderer, assets)){
                         std::cout << "Player bullet hit enemy\n";
                         player->add();
                     }
-                    if (enemy->collision_current_opponent_bullet(player)){
+                    if (enemy->collision_current_opponent_bullet(player, renderer, assets)){
                         std::cout << "enemy bullet hit player\n";
                     }
                     player->collision_player_enemy_bullet(enemy);
