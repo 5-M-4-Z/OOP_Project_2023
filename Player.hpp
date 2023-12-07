@@ -11,7 +11,7 @@
 
 class Player: public Object{
     private:
-        int health_factor, exp, power;
+        int exp, power;
         int delay;
         bool f_pressed;
         Health health;
@@ -31,4 +31,6 @@ class Player: public Object{
         SDL_Rect get_mover();
         void add();
         void explode(SDL_Renderer* renderer, SDL_Texture* assets);
+        void reduce_health(int power);
+        int get_power();
 };

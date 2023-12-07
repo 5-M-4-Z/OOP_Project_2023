@@ -5,7 +5,6 @@ Player::Player(int x, int y){
     src = {111,44,149,182};    mover = {x, y, 75, 75};
     delay = 0;
     health.set_mvr(x, y, 75);   health.set_src();
-    health_factor = 100;
     power = 20;
     exp = 0;
     destroyed = 0;
@@ -21,6 +20,7 @@ void Player::gainPow(){
 
 void Player::move(int width, int height){
     const Uint8* state = SDL_GetKeyboardState(NULL);
+    health.set_mvr(mover.x, mover.y, 75);   health.set_src();
 
     if ((state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]) && mover.y > height/2){
         if (mover.y-5 >0){
@@ -65,7 +65,9 @@ void Player::shoot(){
 }
 
 void Player::display(SDL_Renderer* renderer, SDL_Texture* assets){
-    SDL_RenderCopy(renderer, assets, &src, &mover);
+    if (!destroyed){
+        SDL_RenderCopy(renderer, assets, &src, &mover);
+    }
     this->health.display(renderer, assets);
     this->score.display(renderer, assets);
 }
@@ -119,3 +121,9 @@ void Player::explode(SDL_Renderer* renderer, SDL_Texture* assets){
         explosion.display(renderer, assets);
     }
 }
+
+void Player::reduce_health(int power){
+    health.reduce_health(power);
+}
+
+int Player::get_power(){return power;}
