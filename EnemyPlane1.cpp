@@ -7,8 +7,8 @@ EnemyPlane1::EnemyPlane1(){
 
     // it will display plane on x = 250, y = 50 location, the size of plane is 75 width, 75 height
     mover = {250, 50, 75, 75};
-    name = "enemy";
     destroyed = 0;
+    power = 10;
 }
 EnemyPlane1::EnemyPlane1(int x, int y, int random)
 {
@@ -90,4 +90,18 @@ void EnemyPlane1::explode(SDL_Renderer* renderer, SDL_Texture* assets){
         explosion.update();
         explosion.display(renderer, assets);
     }
+}
+
+int EnemyPlane1::get_power(){return power;}
+
+void EnemyPlane1::reduce_health(int power){
+    health.reduce_health(power);
+}
+
+bool EnemyPlane1::is_completely_destroyed(){
+    return explosion.is_finished();
+}
+
+int EnemyPlane1::get_health(){
+    health.get_health();
 }

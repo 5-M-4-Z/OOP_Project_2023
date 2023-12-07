@@ -10,7 +10,7 @@
 class EnemyPlane1 : public Object
 {
 private:
-    int delay, shootTimer, health_factor;
+    int delay, shootTimer, power;
     Health health;
     Explosion explosion;
 public:
@@ -24,4 +24,8 @@ public:
     EnemyPlane1();
     // ~EnemyPlane1();
     void explode(SDL_Renderer* renderer, SDL_Texture* assets);
+    int get_power();
+    void reduce_health(int power);
+    int get_health();
+    virtual bool is_completely_destroyed();
 };
