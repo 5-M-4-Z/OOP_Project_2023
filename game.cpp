@@ -187,7 +187,7 @@ void Game::run(){
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
-            SDL_Delay(0);   // delay set to 0 for now
+            SDL_Delay(15);   // delay set to 0 for now original 15
         }
         else if (state == 2){
             //Now we need to update the renderer so there is a new background with a plane that will be controlled
@@ -204,11 +204,11 @@ void Game::run(){
                 Texture_src.y -=0.01;
                 if (!(player->get_destroyed())){
                     player->move(screen_width, screen_height);
-                    player->display(renderer, assets);
 
                     player->shoot();
                     player->move_bullet();
                 }
+                player->display(renderer, assets);
                 player->display_bullet(renderer, assets);
                 
 
@@ -230,11 +230,13 @@ void Game::run(){
                         if (!(enemy->get_destroyed())){
                             enemy->display(renderer,assets);
                             enemy->move();
+                        
+                            enemy->move_bullet(screen_height);
+                            enemy->display_bullet(renderer, assets);
                         }
-                        enemy->move_bullet(screen_height);
-                        enemy->display_bullet(renderer, assets);
                     }
                     else {
+                        // delete enemy_vector[i];
                         enemy_vector.erase(enemy_vector.begin() + i);
                         std::cout << "enemy deleted\n";
                     }
@@ -243,21 +245,43 @@ void Game::run(){
 
                 // Checking collision enemy bullet to player 
                 SDL_Rect p_mvr = player->get_mover();
-                for (auto enemy : enemy_vector){
+                for (int i=0; i<enemy_vector.size(); i++){
+                    
+                    auto enemy = enemy_vector[i];
+
                     SDL_Rect enmy_mvr = enemy->get_mover();
                     if (SDL_HasIntersection(&p_mvr, &enmy_mvr)){
                         std::cout << "Plane Plane\n";
                         player->explode(renderer, assets);
                         enemy->explode(renderer, assets);
                     }
-                    if (player->collision_current_opponent_bullet(enemy, renderer, assets)){
+                    if (player->collision_current_opponent_bullet(enemy)){
                         std::cout << "Player bullet hit enemy\n";
-                        player->add();
                     }
-                    if (enemy->collision_current_opponent_bullet(player, renderer, assets)){
+                    if (enemy->collision_current_opponent_bullet(player)){
                         std::cout << "enemy bullet hit player\n";
                     }
                     player->collision_player_enemy_bullet(enemy);
+
+
+                    if ((enemy->get_health())<0){
+                        enemy->explode(renderer, assets);
+                        // std::cout << enemy->is_completely_destroyed() << '\n';
+
+                        if (enemy->is_completely_destroyed()){
+                            player->add();
+                            enemy_vector.erase(enemy_vector.begin() + i);
+                        }
+                    }
+                    std::cout << player->get_health() << "\n";
+                    if ((player->get_health())<0){
+                        player->explode(renderer, assets);
+                        // std::cout << enemy->is_completely_destroyed() << '\n';
+
+                        if (player->is_completely_destroyed()){
+                            quit_game = true;
+                        }
+                    }
                 }
                 
 
