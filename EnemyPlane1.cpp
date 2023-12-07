@@ -75,3 +75,19 @@ void EnemyPlane1::move_bullet(int height){
         }
     }
 }
+
+void EnemyPlane1::explode(SDL_Renderer* renderer, SDL_Texture* assets){
+    if (destroyed == 0){
+        explosion.set_values(mover.x, mover.y, mover.w, mover.h);
+    }
+    int x = 0;
+    for (int i=0; i<10; i++){
+        x++;
+    }
+    // std::cout << "delay ended\n";
+    if (!(explosion.is_finished())){
+        destroyed = 1;
+        explosion.update();
+        explosion.display(renderer, assets);
+    }
+}

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Bullet.hpp"
 #include "Health.hpp"
+#include "Explosion.hpp"
 #pragma once
 
 class EnemyPlane1 : public Object
@@ -11,6 +12,7 @@ class EnemyPlane1 : public Object
 private:
     int delay, shootTimer, health_factor;
     Health health;
+    Explosion explosion;
 public:
     void move();
     void shoot();
@@ -21,4 +23,5 @@ public:
     EnemyPlane1(int x, int y, int random);
     EnemyPlane1();
     // ~EnemyPlane1();
+    void explode(SDL_Renderer* renderer, SDL_Texture* assets);
 };
