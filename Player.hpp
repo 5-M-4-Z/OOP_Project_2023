@@ -5,6 +5,7 @@
 #include "Object.hpp"
 #include "Health.hpp"
 #include "Score.hpp"
+#include "Explosion.hpp"
 
 #pragma once
 
@@ -15,6 +16,7 @@ class Player: public Object{
         bool f_pressed;
         Health health;
         Score score;
+        Explosion explosion;
     public:
         Player(int x, int y);
         void move(int width, int height);
@@ -28,4 +30,5 @@ class Player: public Object{
         int get_f_pressed();
         SDL_Rect get_mover();
         void add();
+        void explode(SDL_Renderer* renderer, SDL_Texture* assets);
 };
