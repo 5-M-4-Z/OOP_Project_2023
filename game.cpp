@@ -121,6 +121,7 @@ SDL_Texture* Game::loadTexture( std::string path){
 void Game::run(){
     bool quit_game = false;
     SDL_Event event;
+    bool plane_plane = 0;
 
     SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
     
@@ -201,11 +202,13 @@ void Game::run(){
                 SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
                 
                 Texture_src.y -=0.01;
-                player->move(screen_width, screen_height);
-                player->display(renderer, assets);
+                if (!(player->get_destroyed())){
+                    player->move(screen_width, screen_height);
+                    player->display(renderer, assets);
 
-                player->shoot();
-                player->move_bullet();
+                    player->shoot();
+                    player->move_bullet();
+                }
                 player->display_bullet(renderer, assets);
                 
 
@@ -224,8 +227,10 @@ void Game::run(){
                     Object * enemy = enemy_vector[i];
                     SDL_Rect mover = enemy->get_mover();
                     if (mover.y < screen_height){
-                        enemy->display(renderer,assets);
-                        enemy->move();
+                        if (!(enemy->get_destroyed())){
+                            enemy->display(renderer,assets);
+                            enemy->move();
+                        }
                         enemy->move_bullet(screen_height);
                         enemy->display_bullet(renderer, assets);
                     }
@@ -242,6 +247,8 @@ void Game::run(){
                     SDL_Rect enmy_mvr = enemy->get_mover();
                     if (SDL_HasIntersection(&p_mvr, &enmy_mvr)){
                         std::cout << "Plane Plane\n";
+                        player->explode(renderer, assets);
+                        enemy->explode(renderer, assets);
                     }
                     if (player->collision_current_opponent_bullet(enemy)){
                         std::cout << "Player bullet hit enemy\n";
