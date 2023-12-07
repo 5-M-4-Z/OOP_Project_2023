@@ -43,3 +43,7 @@ void Object::collision_player_enemy_bullet(Object* opponent){
 }
 
 void Object::add(){}
+
+void Object::explode(SDL_Renderer* renderer, SDL_Texture* assets){}
+
+bool Object::get_destroyed(){return destroyed;}
