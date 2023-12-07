@@ -1,6 +1,5 @@
-
-
 #include <SDL.h>
+// #include "Explosion.hpp"
 #pragma once
 
 class Bullet {
@@ -8,6 +7,8 @@ class Bullet {
         SDL_Rect mover, src;
         int damage;
         int bullet_state;
+        // Explosion explosion;
+        // int destroyed;
     public:
         Bullet(int x, int y);
         void move_bullet();
@@ -16,4 +17,5 @@ class Bullet {
         void destroy();
         void move_bullet(int dummy);
         SDL_Rect get_mover();
+        // void explode(SDL_Renderer* renderer, SDL_Texture* assets);
 };

@@ -6,6 +6,7 @@ Bullet::Bullet(int x, int y){
     mover = {x+34, y, 25, 35};
     damage = 1;
     bullet_state = 0;
+    // destroyed = 0;
 }
 
 void Bullet::move_bullet(){
@@ -55,3 +56,19 @@ void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets, int x){
 SDL_Rect Bullet::get_mover(){
     return mover;
 }
+
+// void EnemyPlane1::explode(SDL_Renderer* renderer, SDL_Texture* assets){
+//     if (destroyed == 0){
+//         explosion.set_values(mover.x, mover.y, mover.w, mover.h);
+//     }
+//     int x = 0;
+//     for (int i=0; i<10; i++){
+//         x++;
+//     }
+//     // std::cout << "delay ended\n";
+//     if (!(explosion.is_finished())){
+//         destroyed = 1;
+//         explosion.update();
+//         explosion.display(renderer, assets);
+//     }
+// }
