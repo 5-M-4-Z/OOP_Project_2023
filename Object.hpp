@@ -25,11 +25,13 @@ public:
     
     virtual void set_delay(int x);
 
-    bool collision_current_opponent_bullet(Object* opponent);
+    bool collision_current_opponent_bullet(Object* opponent, SDL_Renderer* renderer, SDL_Texture* assets);
     void collision_player_enemy_bullet(Object* opponent);
 
     virtual void add();
     virtual void explode(SDL_Renderer* renderer, SDL_Texture* assets);
 
     bool get_destroyed();
+
+    void delete_bullet(int i);
 };

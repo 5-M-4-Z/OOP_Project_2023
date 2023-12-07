@@ -16,11 +16,13 @@ void Object::move_bullet(){}
 void Object::move_bullet(int height){}
 void Object::set_delay(int x){}
 
-bool Object::collision_current_opponent_bullet(Object* opponent){
+bool Object::collision_current_opponent_bullet(Object* opponent, SDL_Renderer* renderer, SDL_Texture* assets){
     for (int i=0; i<bullets_array.size(); i++){
         Bullet bullet = bullets_array[i];
         SDL_Rect bullet_mvr = bullet.get_mover(), opponent_mover = opponent->get_mover();
         if (SDL_HasIntersection(&opponent_mover, &bullet_mvr)){
+            // bullet.explode(renderer, assets);
+            bullets_array.erase(bullets_array.begin() + i);
             return 1;
         }
     }
@@ -37,6 +39,8 @@ void Object::collision_player_enemy_bullet(Object* opponent){
 
             if (SDL_HasIntersection(&p_bullet_mvr, &e_bullet_mvr)){
                 std::cout << "Bullet to bullet collision\n";
+                bullets_array.erase(bullets_array.begin() + i);
+                opponent->delete_bullet(i);
             }
         }
     }
@@ -47,3 +51,7 @@ void Object::add(){}
 void Object::explode(SDL_Renderer* renderer, SDL_Texture* assets){}
 
 bool Object::get_destroyed(){return destroyed;}
+
+void Object::delete_bullet(int i){
+    this->bullets_array.erase(bullets_array.begin() + i);
+}
