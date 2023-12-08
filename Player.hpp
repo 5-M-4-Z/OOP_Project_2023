@@ -33,4 +33,6 @@ class Player: public Object{
         void explode(SDL_Renderer* renderer, SDL_Texture* assets);
         void reduce_health(int power);
         int get_power();
+        int get_health();
+        bool is_completely_destroyed();
 };

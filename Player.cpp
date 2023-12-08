@@ -20,7 +20,6 @@ void Player::gainPow(){
 
 void Player::move(int width, int height){
     const Uint8* state = SDL_GetKeyboardState(NULL);
-    health.set_mvr(mover.x, mover.y, 75);   health.set_src();
 
     if ((state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP]) && mover.y > height/2){
         if (mover.y-5 >0){
@@ -127,3 +126,9 @@ void Player::reduce_health(int power){
 }
 
 int Player::get_power(){return power;}
+
+int Player::get_health(){return health.get_health();}
+
+bool Player::is_completely_destroyed(){
+    return explosion.is_finished();
+}
