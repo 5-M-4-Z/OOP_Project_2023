@@ -121,14 +121,9 @@ SDL_Texture* Game::loadTexture( std::string path){
 void Game::run(){
     bool quit_game = false;
     SDL_Event event;
-    bool plane_plane = 0;
 
     SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
     
-    // TopGun topgun;
-
-    // int x_coord = rand() % (screen_width);
-    // Enemy enemy(x_coord,0);   //This is the enemy's plane
     clock_t lastCreationTime = clock(); // Initialize with current time
     const int creationInterval = CLOCKS_PER_SEC * 5; // 2 seconds
 
@@ -139,15 +134,7 @@ void Game::run(){
             if (event.type == SDL_QUIT){
                 quit_game = true;
             }
-
-            //We will need the folowing if statement only when the player starts playing 
-
-            // if (event.type == SDL_KEYDOWN){
-            //     //Call a function that will affect the game (This will shw a short animation of plane taking off a place)
-            //     game_start(renderer, assets, event.key.keysym.sym);
-            // }
-            
-                // This is just to see the exact co-ordinate that will help in future for placing planes at exact point
+            // This is just to see the exact co-ordinate that will help in future for placing planes at exact point
             if (event.type == SDL_MOUSEBUTTONDOWN){
                 int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
@@ -187,7 +174,7 @@ void Game::run(){
         if(state == 1) {
             game_start_motion(renderer, assets);
             SDL_RenderPresent(renderer);
-            SDL_Delay(15);   // delay set to 0 for now original 15
+            SDL_Delay(15);   // original delay is 15
         }
         else if (state == 2){
             //Now we need to update the renderer so there is a new background with a plane that will be controlled
@@ -223,6 +210,7 @@ void Game::run(){
                 }
 
                 // Render and move existing objects in vector of enemy plane
+                // std::cout << "error starts here and vector size: " << enemy_vector.size() << "\n";
                 for (int i=0; i <enemy_vector.size(); i++){
                     Object * enemy = enemy_vector[i];
                     SDL_Rect mover = enemy->get_mover();
@@ -254,6 +242,7 @@ void Game::run(){
                         std::cout << "Plane Plane\n";
                         player->explode(renderer, assets);
                         enemy->explode(renderer, assets);
+                        state = 3;
                     }
                     if (player->collision_current_opponent_bullet(enemy)){
                         std::cout << "Player bullet hit enemy\n";
@@ -264,7 +253,7 @@ void Game::run(){
                     player->collision_player_enemy_bullet(enemy);
 
 
-                    if ((enemy->get_health())<0){
+                    if ((enemy->get_health())<=0){
                         enemy->explode(renderer, assets);
                         // std::cout << enemy->is_completely_destroyed() << '\n';
 
@@ -273,21 +262,23 @@ void Game::run(){
                             enemy_vector.erase(enemy_vector.begin() + i);
                         }
                     }
-                    std::cout << player->get_health() << "\n";
-                    if ((player->get_health())<0){
+                    std::cout << player->get_health() << '\n';
+                    if ((player->get_health())<=0){
                         player->explode(renderer, assets);
                         // std::cout << enemy->is_completely_destroyed() << '\n';
 
                         if (player->is_completely_destroyed()){
-                            quit_game = true;
+                            delete player;
+                            player = nullptr;
+                            state = 3;
                         }
                     }
                 }
-                
-
-
             }
             SDL_RenderPresent(renderer);
+        }//end if of state == 2;
+        else if (state == 3){
+            quit_game = true;
         }
         else{
             SDL_RenderPresent(renderer);
