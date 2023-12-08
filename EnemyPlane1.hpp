@@ -27,5 +27,5 @@ public:
     int get_power();
     void reduce_health(int power);
     int get_health();
-    virtual bool is_completely_destroyed();
+    bool is_completely_destroyed();
 };

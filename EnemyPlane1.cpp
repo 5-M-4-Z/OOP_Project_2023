@@ -30,6 +30,8 @@ EnemyPlane1::EnemyPlane1(int x, int y, int random)
     }
     health.set_mvr(x, y+55, 75);   health.set_src();
     shootTimer = 0;
+    destroyed = 0;
+    power = 10;
 }
 
 void EnemyPlane1::display(SDL_Renderer* renderer, SDL_Texture* assets){
