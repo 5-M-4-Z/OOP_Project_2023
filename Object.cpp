@@ -23,8 +23,8 @@ bool Object::collision_current_opponent_bullet(Object* opponent){
         if (SDL_HasIntersection(&opponent_mover, &bullet_mvr)){
             // bullet.explode(renderer, assets);
             bullets_array.erase(bullets_array.begin() + i);
+            std::cout << this->get_power() << '\n';
             opponent->reduce_health(this->get_power());
-            // this->reduce_health(opponent->get_power());
             return 1;
         }
     }
