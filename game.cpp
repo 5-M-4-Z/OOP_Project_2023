@@ -262,7 +262,7 @@ void Game::run(){
                             enemy_vector.erase(enemy_vector.begin() + i);
                         }
                     }
-                    std::cout << player->get_health() << '\n';
+                    // std::cout << player->get_health() << '\n';
                     if ((player->get_health())<=0){
                         player->explode(renderer, assets);
                         // std::cout << enemy->is_completely_destroyed() << '\n';
