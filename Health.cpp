@@ -5,7 +5,7 @@ void Health::set_mvr(int x, int y, int value){
 }
 
 void Health::display(SDL_Renderer* renderer, SDL_Texture* assets){
-    SDL_RenderCopy(renderer, assets, &src, &mover);
+    Object::display(renderer, assets);
 }
 
 void Health::set_src(){
