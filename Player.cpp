@@ -8,6 +8,7 @@ Player::Player(int x, int y){
     power = 20;
     exp = 0;
     destroyed = 0;
+    name = "Player";
 }
 
 void Player::gainExp(){
@@ -65,7 +66,7 @@ void Player::shoot(){
 
 void Player::display(SDL_Renderer* renderer, SDL_Texture* assets){
     if (!destroyed){
-        SDL_RenderCopy(renderer, assets, &src, &mover);
+        Aircraft::display(renderer, assets);
     }
     this->health.display(renderer, assets);
     this->score.display(renderer, assets);

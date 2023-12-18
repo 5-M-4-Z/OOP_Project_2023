@@ -2,21 +2,21 @@
 #include <vector>
 #include <iostream>
 #include "Bullet.hpp"
-#include "Object.hpp"
+#include "Aircraft.hpp"
 #include "Health.hpp"
 #include "Score.hpp"
 #include "Explosion.hpp"
 
 #pragma once
 
-class Player: public Object{
+class Player: public Aircraft{
     private:
         int exp, power;
         int delay;
         bool f_pressed;
-        Health health;
+        // Health health;
         Score score;
-        Explosion explosion;
+        // Explosion explosion;
     public:
         Player(int x, int y);
         void move(int width, int height);
