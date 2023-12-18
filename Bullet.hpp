@@ -1,10 +1,11 @@
 #include <SDL.h>
 // #include "Explosion.hpp"
+#include "Object.hpp"
 #pragma once
 
-class Bullet {
+class Bullet: public Object {
     private:
-        SDL_Rect mover, src;
+        // SDL_Rect mover, src;
         int damage;
         int bullet_state;
         // Explosion explosion;

@@ -45,12 +45,15 @@ void Bullet::destroy(){
 }
 
 void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets){
-    SDL_RenderCopy(renderer, assets, &src, &mover);
+    Object::display(renderer, assets);
+    // SDL_RenderCopy(renderer, assets, &src, &mover);
 }
 
 void Bullet::display(SDL_Renderer* renderer, SDL_Texture* assets, int x){
     // int x is only dummy vaariable to identify enemy bullets 
-    SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
+    name = "Enemy";
+    Object::display(renderer, assets);
+    // SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
 }
 
 SDL_Rect Bullet::get_mover(){
