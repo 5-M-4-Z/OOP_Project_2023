@@ -122,7 +122,13 @@ void Game::run(){
     bool quit_game = false;
     SDL_Event event;
 
-    SDL_Rect Texture_src = {0, 1270, 500, 650}; //This for the background 
+    //This for the background 
+    SDL_Rect Texture_src = {rand() % 349, 1270, 500, 650};
+    SDL_Rect Texture_mvr = {0, 0, 500, 650};
+
+    //This for the linking texture
+    SDL_Rect link_Texture_src = {0, 0, 500, 0 };
+    SDL_Rect link_Texture_mvr = {0, 0, 500, 0 };
     
     clock_t lastCreationTime = clock(); // Initialize with current time
     const int creationInterval = CLOCKS_PER_SEC * 5; // 2 seconds
@@ -153,6 +159,16 @@ void Game::run(){
                 if (xMouse >= 187 && xMouse <= 312 && yMouse >= 548 && yMouse <= 590) {
                     // Close the game when the click is within the specified coordinates
                     quit_game = true;
+                }
+            }
+            if (state == 3 && event.type == SDL_MOUSEBUTTONDOWN){
+                int xMouse, yMouse;
+                SDL_GetMouseState(&xMouse, &yMouse);
+
+                if (xMouse >= 187 && xMouse <= 312 && yMouse >= 548 && yMouse <= 590) {
+                    // this means the player wants to restart the game
+                    player = new Player((screen_width/2) -38, screen_height-75);
+                    state = 2;
                 }
             }
 
@@ -186,9 +202,57 @@ void Game::run(){
  
             Texture = loadTexture("assets/background.png");            
             if (Texture_src.y > -Texture_src.h){
-                SDL_RenderCopy(renderer, Texture, &Texture_src, nullptr);
+                // SDL_RenderCopy(renderer, Texture, &Texture_src, &Texture_mvr);
                 
-                Texture_src.y -=0.01;
+                if (Texture_src.y>0){
+                    SDL_RenderCopy(renderer, Texture, &Texture_src, NULL);
+                    Texture_src.y -= 0.01;
+                }
+                else{
+                    SDL_RenderCopy(renderer, Texture, &Texture_src, &Texture_mvr);
+                }
+
+                
+                if (Texture_src.y < 0 && link_Texture_src.y == 0){
+                    Texture_mvr.y += 0.01;
+                    //849 x 1920 ====> this is the total pixels of the image background png
+                    //this link texture is going to be used to loop the background
+                    link_Texture = loadTexture("assets/background.png");
+                    SDL_RenderCopy(renderer, link_Texture, &link_Texture_src, &link_Texture_mvr);
+
+                    //Setting any random point for x but y should be the bootom most pixel (game-logic)
+                    link_Texture_src.x = rand() % 349;
+                    link_Texture_src.y = 1270 + 650;
+
+                    // As the 1st bckgrnd starts to move below its height decreases similarly 2nd bckgrnd increases
+                    link_Texture_src.h += 0.01;
+                    link_Texture_mvr.h += 0.01;
+
+                    // Increasing the pixel location of from the bckgrnd so it loads the next part that is needed to show
+                    link_Texture_src.y -= 0.01;
+                }
+                else if (Texture_src.y < 0){
+                    Texture_mvr.y += 0.01;
+                    SDL_RenderCopy(renderer, link_Texture, &link_Texture_src, &link_Texture_mvr);
+
+                    //same logic as before
+                    link_Texture_src.h += 0.01;
+                    link_Texture_mvr.h += 0.01;
+                    link_Texture_src.y -= 0.01;
+                    if (Texture_mvr.y + 0.01 >=screen_height){
+                        // looping the linked texture to the original
+                        Texture_mvr = {0, 0, 500, 650};
+                        Texture_src = {link_Texture_src.x, 1270, 500, 650};
+                        Texture_mvr.y += 0.01;
+
+                        // Setting to initial values of linked texture
+                        link_Texture_src = {0, 0, 500, 0 };
+                        link_Texture_mvr = {0, 0, 500, 0 };
+                    }
+                }
+
+                // std::cout << Texture_src.y << '\n';
+                //Some functions will only work if the Player's health is zero or not.
                 if (!(player->get_destroyed())){
                     player->move(screen_width, screen_height);
 
@@ -212,9 +276,11 @@ void Game::run(){
                 // Render and move existing objects in vector of enemy plane
                 // std::cout << "error starts here and vector size: " << enemy_vector.size() << "\n";
                 for (int i=0; i <enemy_vector.size(); i++){
-                    Object * enemy = enemy_vector[i];
+                    Aircraft * enemy = enemy_vector[i];
                     SDL_Rect mover = enemy->get_mover();
                     if (mover.y < screen_height){
+
+                        // Same logic as before of player
                         if (!(enemy->get_destroyed())){
                             enemy->display(renderer,assets);
                             enemy->move();
@@ -275,10 +341,26 @@ void Game::run(){
                     }
                 }
             }
+            // std::cout << Texture_src.y << '\n';
+            
             SDL_RenderPresent(renderer);
         }//end if of state == 2;
         else if (state == 3){
-            quit_game = true;
+            // This state means that we need to destroy or free up the player plane and enemy vector
+            delete player;  player = nullptr;
+            for (int i=0; i<enemy_vector.size(); i++){
+                delete enemy_vector[i];     enemy_vector[i] = nullptr;
+            }
+            enemy_vector.clear();
+            //deletion done
+
+            SDL_RenderClear(renderer);
+            SDL_DestroyTexture(Texture);
+            
+            Texture = loadTexture("assets/GameOver.png");
+            
+            SDL_RenderCopy(renderer, Texture, NULL, NULL);
+            SDL_RenderPresent(renderer);
         }
         else{
             SDL_RenderPresent(renderer);
@@ -305,20 +387,5 @@ void Game::game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets){
         state = 2;
     }
     
-    
-}
-
-void Game::game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key){
-    //The function will be later modified as a mover for the players plane 
-    if (key == SDLK_LEFT) { 
-        start_plane.mover_rect.x -= 10;  // Moving the planes with keys
-    } else if (key == SDLK_RIGHT) {
-        start_plane.mover_rect.x += 10;  
-    }
-    if (key == SDLK_UP) {
-        start_plane.mover_rect.y -= 10;  
-    } else if (key == SDLK_DOWN) {
-        start_plane.mover_rect.y += 10;  
-    }
     
 }

@@ -10,6 +10,7 @@
 #include "Object.hpp"
 #include "EnemyPlane1.hpp"
 #include "Player.hpp"
+#include "Aircraft.hpp"
 
 
 struct Plane{
@@ -33,10 +34,11 @@ class Game{
         //Start game window plane that willl move
         Plane start_plane = {{111,44,149,182}, {122, 560, 75, 75}};     //the array {122, 560, 75,75} will differ from screen to screen
         
-        Object* player = new Player((screen_width/2) -38, screen_height-75);  //This is the player's plane
+        //This is the player's plane
+        Aircraft* player = new Player((screen_width/2) -38, screen_height-75);
 
-        //Enemy vector
-        std::vector<Object*> enemy_vector;
+        //Enemy Plane vector
+        std::vector<Aircraft*> enemy_vector;
 
         //Creating window that we will be modifying for our game
         SDL_Window* window = NULL;
@@ -47,6 +49,9 @@ class Game{
         //Texture to display
         SDL_Texture* Texture = NULL;
         
+        //Link Texture
+        SDL_Texture* link_Texture = NULL;
+
         //texture for assets
         SDL_Texture* assets = NULL;
 
@@ -60,7 +65,6 @@ class Game{
         bool load_media();  //this loads the desired media files
         bool init();
         SDL_Texture* loadTexture( std::string path );
-        void game_start(SDL_Renderer* renderer, SDL_Texture* assets, SDL_Keycode key);
         void game_start_motion(SDL_Renderer* renderer, SDL_Texture* assets);
         // void background_mover(SDL_Renderer* renderer, SDL_Texture* Texture, SDL_Rect src, SDL_Rect mover);
 
