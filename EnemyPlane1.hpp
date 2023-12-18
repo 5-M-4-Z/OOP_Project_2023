@@ -1,4 +1,4 @@
-#include "Object.hpp"
+#include "Aircraft.hpp"
 #include <SDL.h>
 #include <vector>
 #include <iostream>
@@ -7,12 +7,12 @@
 #include "Explosion.hpp"
 #pragma once
 
-class EnemyPlane1 : public Object
+class EnemyPlane1 : public Aircraft
 {
 private:
     int delay, shootTimer, power;
-    Health health;
-    Explosion explosion;
+    // Health health;
+    // Explosion explosion;
 public:
     void move();
     void shoot();

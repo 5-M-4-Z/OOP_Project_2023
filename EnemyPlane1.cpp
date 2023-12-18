@@ -9,6 +9,7 @@ EnemyPlane1::EnemyPlane1(){
     mover = {250, 50, 75, 75};
     destroyed = 0;
     power = 10;
+    name = "Enemy";
 }
 EnemyPlane1::EnemyPlane1(int x, int y, int random)
 {
@@ -32,10 +33,12 @@ EnemyPlane1::EnemyPlane1(int x, int y, int random)
     shootTimer = 0;
     destroyed = 0;
     power = 10;
+    name = "Enemy";
 }
 
 void EnemyPlane1::display(SDL_Renderer* renderer, SDL_Texture* assets){
-    SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
+    // SDL_RenderCopyEx(renderer, assets, &src, &mover, 0, NULL, SDL_FLIP_VERTICAL);
+    Aircraft::display(renderer, assets);
     health.display(renderer, assets);
 }
 
