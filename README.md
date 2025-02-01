@@ -1,14 +1,25 @@
-# OOP_Project_2023
-"Top Gun Challenge" is a fast-paced 2D shooting game where you control a fighter plane that automatically ascends. You can move it left and right to dodge enemy planes, missiles, and massive obstacles. Your mission is to shoot down the enemy planes and destroy obstacles with your plane's missiles. Fuel power-ups can help you stay in the game longer, and your score increases as you conquer bigger challenges. The game becomes more challenging as you progress through levels. It features great graphics, sound effects, and power-ups. The goal is to survive, shoot down enemies, and achieve the highest score in this exciting aerial showdown.
+# Top Gun Challenge (Using SDL)
 
-**=> Contributors:**
+## Project Overview
+The *Top Gun Challenge* is an interactive, plane shooting game where players control their plane to shoot down enemy aircraft while managing their fuel and health. The goal is to defeat enemy planes, score points, and advance through levels to become the ultimate ace pilot. This game is developed using the **SDL (Simple DirectMedia Layer)** for graphical representation and follows **Object-Oriented Programming (OOP)** principles.
 
-**- Hussain Umer**
+## Objectives
+- Develop a plane shooting game using **SDL** for graphics.
+- Implement core **OOP principles** such as:
+  - Encapsulation
+  - Inheritance
+  - Polymorphism
+  - Abstraction
+  
+## Features
+- **Player Movement**: Control your plane on the screen.
+- **Shooting Mechanism**: Shoot at enemy planes.
+- **Power-ups**: Collect power-ups to enhance your capabilities.
+- **Health and Fuel Management**: Maintain health and fuel levels during gameplay.
+- **Collision Detection**: Detect and handle collisions between planes.
+- **Score System**: Track current and high scores.
 
-**- Meesam Abbas**
-
-**- Shayan Wasif**
-
+## How to Run:
 Run this command in terminal: 
 
     "g++ *.cpp -IC:\mingw_dev_lib\include\SDL2 -LC:\mingw_dev_lib\lib -w -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf"
